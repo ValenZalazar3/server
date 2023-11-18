@@ -38,7 +38,7 @@ server.use((err, req, res, next) => {
 const PORT = process.env.PORT || 3001
 
 sequelize.sync({ force: false }).then(() => {
-  server.listen(3001, (err) => {
+  server.listen(PORT, (err) => {
     if (err) throw err
 
     console.log(`Server listening on port: ${PORT}`)
