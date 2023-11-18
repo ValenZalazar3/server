@@ -28,21 +28,19 @@ server.use((req, res, next) => {
   next()
 })
 server.use('/', router)
-
 // Error catching endware.
 server.use((err, req, res, next) => {
   const status = err.status || 500
   const message = err.message || err
   console.error(err)
   res.status(status).send(message)
+})
 
-  const PORT = process.env.PORT || 3000
+sequelize.sync({ force: false }).then(() => {
+  server.listen(3001, (err) => {
+    if (err) throw err
 
-  sequelize.sync({ force: false }).then(() => {
-    server.listen(3001, (err) => {
-      if (err) throw err
-      console.log(`Server listening on port: ${PORT}`)
-    })
+    console.log(`Server listening on port: 3001`)
   })
 })
 
