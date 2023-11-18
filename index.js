@@ -5,6 +5,7 @@ const router = require('./src/router/index')
 
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
+const app = next({})
 
 const handle = app.getRequestHandler()
 
