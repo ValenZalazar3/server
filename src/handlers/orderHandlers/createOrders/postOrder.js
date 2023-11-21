@@ -2,29 +2,30 @@ const { createOrder } = require('../../../controllers');
 
 const postOrder = async (req, res) => {
   try {
-    const { products, totalPrice, userId } = req.body;
+    const { products, totalPrice, userId, userName } = req.body;
 
-    if (!products) {
-      res
-        .status(404)
-        .json({ message: 'No hay productos en el carrito' });
-    }
-    if (!totalPrice) {
-      res.status(404).json({ message: 'No hay precio total' });
-    }
-    if (!userId) {
-      res.status(404).json({ message: 'No hay id' });
+    console.log(products, totalPrice, userId, userName);
+    if (!products || !totalPrice || !userId || !userName) {
+      return res
+        .status(400)
+        .json({ message: 'Faltan campos obligatorios en la solicitud' });
     }
 
     const finalOrder = await createOrder({
-      products: products,
-      totalPrice: totalPrice,
-      userId: userId
+      products,
+      totalPrice,
+      userId,
+      userName
     });
 
-    return res.status(200).json(finalOrder);
+    return res.status(200).json({
+      id: finalOrder.id,
+      message: 'Orden creada exitosamente'
+    });
   } catch (error) {
-    return res.status(500).json({ message: 'Error en post order' });
+    console.error(error.message);
+
+    return res.status(500).json({ message: 'Error interno del servidor' });
   }
 };
 

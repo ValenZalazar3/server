@@ -17,7 +17,7 @@ const {
 userRouter.get('/', authAdmin(getAllUsers));
 userRouter.get('/:id', isLogged(getUserById));
 //create
-userRouter.post('/', authAdmin(createUser));
+userRouter.post('/', createUser);
 userRouter.post('/login', loginUser);
 //update
 userRouter.put('/:id', authAdmin(updateUser));

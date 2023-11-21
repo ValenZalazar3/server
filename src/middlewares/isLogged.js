@@ -8,7 +8,6 @@ module.exports = function isLogged(handler) {
       if (req.body.userId !== undefined) userId = req.body.userId;
       else if (req.query.userId !== undefined) userId = req.query.userId;
       else if (req.params.id !== undefined) userId = req.params.id;
-
       if (userId === 'notLogged') {
         return res.status(401).json({ error: 'Acceso no autorizado' });
       }

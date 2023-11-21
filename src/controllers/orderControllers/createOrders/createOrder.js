@@ -1,6 +1,6 @@
 const { Order, Product } = require('../../../db');
 
-const createOrder = async ({ products, totalPrice, userId }) => {
+const createOrder = async ({ products, totalPrice, userId, userName }) => {
   try {
     await products.map(async (product) => {
       const quantity =
@@ -14,10 +14,10 @@ const createOrder = async ({ products, totalPrice, userId }) => {
       await productToUpdate.save();
     });
 
-    const createdOrder = await Order.create({ products, totalPrice, userId });
+    const createdOrder = await Order.create({ products, totalPrice, userId, userName });
     return createdOrder;
   } catch (error) {
-    console.log('error', error);
+    console.error('error', error);
     return false;
   }
 };

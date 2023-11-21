@@ -8,7 +8,7 @@ const findAllProducts = async (userId) => {
     if (userId) return products;
 
     const mappedProducts = products.map((product) => {
-      return { ...product.dataValues, specifications: [] };
+      return { ...product.dataValues, specifications: [], sales: 0 };
     });
 
     return mappedProducts;
