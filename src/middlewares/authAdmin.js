@@ -8,9 +8,9 @@ module.exports = function authAdmin(handler) {
       else if (req.body.userId !== undefined) userId = req.body.userId;
       else if (req.params.userId !== undefined) userId = req.params.userId;
 
-      if (userId === "notLogged") {
+      /* if (userId === "notLogged") {
         return res.status(401).json({ error: "Acceso no autorizado" });
-      }
+      } */
 
       const user = await User.findByPk(userId);
 
