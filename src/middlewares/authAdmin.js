@@ -10,11 +10,11 @@ module.exports = function authAdmin(handler) {
 
       /* if (userId === "notLogged") {
         return res.status(401).json({ error: "Acceso no autorizado" });
-      } */
+      } 
 
       const user = await User.findByPk(userId);
 
-      /* if (user?.isAdmin) { */
+       if (user?.isAdmin) { */
       return handler(req, res);
       /*  } else {
         throw new Error('Acceso no autorizado');
