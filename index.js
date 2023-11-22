@@ -1,44 +1,41 @@
-const express = require('express')
+const express = require("express");
 
-const { sequelize } = require('./src/db')
-const router = require('./src/router/index')
-const cookieParser = require('cookie-parser')
-const bodyParser = require('body-parser')
-const morgan = require('morgan')
+const { sequelize } = require("./src/db");
+const router = require("./src/router/index");
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const morgan = require("morgan");
 
-const server = express()
+const server = express();
 
-server.name = 'enchufando'
+server.name = "enchufando";
 
-server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }))
-server.use(bodyParser.json({ limit: '50mb' }))
-server.use(cookieParser())
-server.use(morgan('dev'))
+server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+server.use(bodyParser.json({ limit: "50mb" }));
+server.use(cookieParser());
+server.use(morgan("dev"));
 server.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Credentials', 'true')
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  )
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
-  next()
-})
-server.use('/', router)
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+  next();
+});
+server.use("/", router);
 // Error catching endware.
 server.use((err, req, res, next) => {
-  const status = err.status || 500
-  const message = err.message || err
-  console.error(err)
-  res.status(status).send(message)
-})
-const PORT = process.env.PORT || 3001
+  const status = err.status || 500;
+  const message = err.message || err;
+  console.error(err);
+  res.status(status).send(message);
+});
+const PORT = process.env.PORT || 3001;
 
-sequelize.sync({ force: false }).then(() => {
+sequelize.sync({ force: true }).then(() => {
   server.listen(PORT, (err) => {
-    if (err) throw err
-    console.log(`Server listening on port: ${PORT}`)
-  })
-})
+    if (err) throw err;
+    console.log(`Server listening on port: ${PORT}`);
+  });
+});
 
-module.exports = server
+module.exports = server;
