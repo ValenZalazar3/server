@@ -1,6 +1,7 @@
 const { User, Codes } = require("../../../db");
 const bcrypt = require("bcrypt");
 const { newUser } = require("../../../utils/templates");
+const mailSender = require("../../../utils/nodemailer");
 
 const createUserContr = async (name, email, password, address, code, isAdmin) => {
   try {
