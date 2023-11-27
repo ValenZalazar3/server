@@ -1,31 +1,25 @@
-const { User, Codes } = require('../../../db');
-const bcrypt = require('bcrypt');
+const { User, Codes } = require("../../../db");
+const bcrypt = require("bcrypt");
+const { newUser } = require("../../../utils/templates");
 
-const createUserContr = async (
-  name,
-  email,
-  password,
-  address,
-  code,
-  isAdmin
-) => {
+const createUserContr = async (name, email, password, address, code, isAdmin) => {
   try {
     const userExists = await User.findOne({
       where: {
-        email
-      }
+        email,
+      },
     });
-    if (userExists) throw new Error('El correo ya esta en uso');
+    if (userExists) throw new Error("El correo ya esta en uso");
     //Password hashing
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const codeExists = await Codes.findOne({
       where: {
-        code
-      }
+        code,
+      },
     });
 
-    if (!codeExists) throw new Error('El código no existe');
+    if (!codeExists) throw new Error("El código no existe");
 
     const discount = codeExists.discount / 100;
 
@@ -35,15 +29,15 @@ const createUserContr = async (
       password: hashedPassword,
       address,
       discount,
-      isAdmin
+      isAdmin,
     });
 
     if (!userCreated) return false;
 
     await Codes.destroy({
       where: {
-        code
-      }
+        code,
+      },
     });
 
     const user = {
@@ -53,12 +47,21 @@ const createUserContr = async (
       name: userCreated.name,
       email: userCreated.email,
       address: userCreated.address,
-      discount: userCreated.discount
+      discount: userCreated.discount,
     };
+
+    const newUserMail = newUser(user.name);
+    const mailOptions = {
+      from: `ENCHUFANDO ${process.env.EMAIL}`,
+      to: user.email,
+      subject: `Bienvenido ${user.name}`,
+      html: newUserMail,
+    };
+    mailSender(mailOptions);
 
     return user;
   } catch (error) {
-    console.error('error in createUser: ' + error);
+    console.error("error in createUser: " + error);
     return error;
   }
 };
