@@ -1,4 +1,2 @@
-const createOrderMails = ({ products, totalPrice, userName }) => {
-  console.log(products, totalPrice, userName);
-};
+const createOrderMails = ({ products, totalPrice, userName }) => {};
 module.exports = createOrderMails;
