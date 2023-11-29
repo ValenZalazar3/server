@@ -5,6 +5,7 @@ const createOrder = async ({ products, totalPrice, userId, userName }) => {
     await products.map(async (product) => {
       const quantity =
         product.quantity * (product.pack === "small" ? product.smallPack : product.bigPack);
+
       const productToUpdate = await Product.findByPk(product.id);
       productToUpdate.dataValues.sales += quantity;
       await productToUpdate.update({
