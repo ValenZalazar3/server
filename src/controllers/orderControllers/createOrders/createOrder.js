@@ -13,8 +13,6 @@ const createOrder = async ({ products, totalPrice, userId, userName }) => {
       await productToUpdate.save();
     });
 
-    // const sendMailToAdmin = createOrderMails({ products, totalPrice, userName });
-
     const createdOrder = await Order.create({ products, totalPrice, userId, userName });
     return createdOrder;
   } catch (error) {
